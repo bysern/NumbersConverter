@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NumbersConverter
 {
@@ -10,133 +6,51 @@ namespace NumbersConverter
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Type a number");
-            string Input = Console.ReadLine();
-            double Parsed = 0;
-            try
+            string input = string.Empty;
+
+            MainProgram();
+
+            void MainProgram()
             {
-                Parsed = Convert.ToDouble(Input);
-            }
-            catch (Exception e) { Console.WriteLine("Wrong input \n" + e.Message); }
-
-
-            Console.WriteLine("In Decimal: " + decimalToBinary(Parsed, 10));
-            Console.WriteLine("In Binary: " + decimalToBinary(Parsed, 2));
-            Console.WriteLine("In Octal: " + decimalToBinary(Parsed, 8));
-            Console.WriteLine("In Hexadecimal: " + decimalToHexa(Parsed));
-        }
-
-
-        static string decimalToBinary(double num, int Base)
-        {
-            string binary = string.Empty;
-
-            // Integral part of decimal number 
-            int Integral = (int)num;
-
-            // Fractional part of decimal number 
-            double fractional = num - Integral;
-
-            //decimal to binary before point conversio
-            while (Integral > 0)
-            {
-                int rem = Integral % Base;
-
-                //if (rem == 11) rem = 'B';
-                // Append 0 in binary 
-                binary += (char)(rem + '0');
-                //binary = rem.ToString() + binary;
-
-                Integral /= Base;
-            }
-
-            // Reverse string to get correct binary result
-            binary = Reverse(binary);
-
-            // Point before fractional 
-            binary += ('.');
-
-            // Conversion of fractional part to binary
-            int Limit = 7;       //limit of digits after point
-            while (true && Limit > 0)
-            {
-                Limit--;
-                // Find next bit in fraction 
-                fractional *= Base;
-                int fract_bit = (int)fractional;
-                if (fractional == 0) break;
-                else
+                input = ReadNumber.AskUser();
+                try
                 {
-                    binary += fract_bit;
-                    fractional -= fract_bit;
+                    if (input[0] == '0' && input[1] != 'x' && input[1] != 'X' && input[1] != ',')   //if number is octal
+                    {
+                        OctalSystems octal = new OctalSystems(input);
+                        octal.ShowingOctalResults();
+
+                    }
+                    else if (input[1] == 'x' || input[1] == 'X')  // if number is hexadecimal
+                    {
+                        HexadecimalSystems hexadecimal = new HexadecimalSystems(input);
+                        hexadecimal.ShowingHexadecimalResults();
+                    }
+                    else                      // if number is decimal
+                    {
+                        DecimalSystems dec = new DecimalSystems(input);
+                        Console.WriteLine("In decimal: " + input + "\n" + dec.DecimalToBinary() + "\n" + dec.DecimalToHexa() + "\n" + dec.DecimalToOctal());
+                    }
                 }
-            }
-            return binary;
-        }
-
-
-        static string decimalToHexa(double num)
-        {
-            string binary = string.Empty;
-
-            // Integral part of decimal number 
-            int Integral = (int)num;
-
-            // Fractional part of decimal number 
-            double fractional = num - Integral;
-
-            binary += string.Format("{0:x}", Integral); //decimal to hex convertion integral part
-
-            // Point before fractional 
-            binary += ('.');
-
-            // Conversion of fractional part to hex
-            int Limit = 7;       //limit of digits after point
-            while (true && Limit > 0)
-            {
-                Limit--;
-                fractional *= 16;
-                int fract_bit = (int)fractional;
-                if (fractional == 0) break;
-                else
+                catch (Exception e)
                 {
-                    binary += string.Format("{0:x}", fract_bit);
-                    fractional -= fract_bit;
+                    Console.WriteLine(e.Message + " Error try again");
                 }
+                LoopOfMainProgram();
             }
-            return binary;
-        }
-        
-                                 
-        static string Reverse(string input)
-        {
-            char[] temparray = input.ToCharArray();
-            int left, right = 0;
-            right = temparray.Length - 1;
 
-            for (left = 0; left < right; left++, right--)
+            void LoopOfMainProgram()
             {
-                // Swap values of left and right  
-                char temp = temparray[left];
-                temparray[left] = temparray[right];
-                temparray[right] = temp;
+                while (true)
+                {
+                    Console.WriteLine("Do you want to try another number? \n Type 'yes' or 'exit'");
+                    string answer = Console.ReadLine();
+                    if (answer == "exit") { Environment.Exit(0); break; }
+                    else if (answer == "yes") { Console.Clear(); MainProgram(); break; }
+                    else Console.WriteLine("Wrong answer");
+                }
+
             }
-            return string.Join("", temparray);
         }
-                                            
-
-
-        //DecimalResult = Convert.ToString(Convert.ToInt32(NumberInput, 10), 10);
-        //Console.WriteLine("In decimal: " + DecimalResult);
-
-        //string BinaryResult = Convert.ToString(Convert.ToInt64(NumberInput, 10), 2);
-        //Console.WriteLine("In binary: " + BinaryResult);
-
-        //string octal = Convert.ToString(Convert.ToInt32(NumberInput, 10), 8);
-        //Console.WriteLine("In Octal: " + octal);
-
-        //string hexadecimal = Convert.ToString(Convert.ToInt32(NumberInput, 10), 16);
-        //Console.WriteLine("In Hexadecimal: " + hexadecimal);
     }
-
 }
