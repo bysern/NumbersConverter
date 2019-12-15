@@ -12,16 +12,20 @@ namespace NumbersConverter
             this.userInput = newUserInput;
         }
 
-        public int HexToDec()
+        public double HexToDec()
         {
-            char sep = ',';
-            int result = 0;
+            double result = 0;
 
-            int count = userInput.Length - 1;
-            for (int i = 0; i < userInput.Length; i++)
+            string[] SplittedNumber = userInput.Split(',');
+
+            string IntegralPart = SplittedNumber[0];
+            string FractionalPart = SplittedNumber[1];
+
+            int count = IntegralPart.Length - 1;
+            for (int i = 0; i < IntegralPart.Length; i++)
             {
                 int temp = 0;
-                switch (userInput[i])
+                switch (IntegralPart[i])
                 {
                     case 'x': break;
                     case 'A': temp = 10; break;
@@ -30,28 +34,38 @@ namespace NumbersConverter
                     case 'D': temp = 13; break;
                     case 'E': temp = 14; break;
                     case 'F': temp = 15; break;
-                    default: temp = -48 + (int)userInput[i]; break; // -48 because of ASCII
+                    default: temp = -48 + (int)IntegralPart[i]; break; // -48 because of ASCII
                 }
 
                 result += temp * (int)(Math.Pow(16, count));
                 count--;
             }
 
-            if (userInput.Contains(sep))
+            if (FractionalPart != string.Empty)
             {
-                Console.WriteLine("separator");
-                char[] separators = { ',' };
-                string secondword = userInput.Split(separators, 2)[1];
+                string tempResult = result.ToString();
+                tempResult += '.';
+                for (int i = 0; i < 16; ++i)
+                {
+                    double FractionalValue = result - Math.Truncate(result);
+                    FractionalValue = FractionalValue * 16;
+                    int digit = (int)FractionalValue;
 
-                result.ToString();
-                result += '.';
-                result += Convert.ToInt32(secondword, 16);
+                    tempResult += digit.ToString("X");
+
+                    FractionalValue = FractionalValue - digit;
+
+                    if (FractionalValue == 0)
+                    {
+                        break;
+                    }
+
+                    tempResult = result.ToString();
+                }
             }
+
             return result;
         }
-
-        //char[] separators = { ',' };
-        //string fractionalPart = myString.Split(separators, 2)[1];
 
         public void ShowingHexadecimalResults()
         {
