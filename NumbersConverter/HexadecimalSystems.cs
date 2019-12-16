@@ -15,11 +15,17 @@ namespace NumbersConverter
         public double HexToDec()
         {
             double result = 0;
+            string FractionalPart = string.Empty;
+            string IntegralPart;
 
-            string[] SplittedNumber = userInput.Split(',');
+            if (userInput.Contains(','))
+            {
+                string[] SplittedNumber = userInput.Split(',');
 
-            string IntegralPart = SplittedNumber[0];
-            string FractionalPart = SplittedNumber[1];
+                IntegralPart = SplittedNumber[0];
+                FractionalPart = SplittedNumber[1];
+            }
+            else IntegralPart = userInput;
 
             int count = IntegralPart.Length - 1;
             for (int i = 0; i < IntegralPart.Length; i++)
