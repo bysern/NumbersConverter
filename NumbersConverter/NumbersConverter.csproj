@@ -52,6 +52,7 @@
     <Compile Include="DecimalSystems.cs" />
     <Compile Include="DisplayingResults.cs" />
     <Compile Include="HexadecimalSystems.cs" />
+    <Compile Include="INumberSystem.cs" />
     <Compile Include="OctalSystems.cs" />
     <Compile Include="OctalSystemsTests.cs" />
     <Compile Include="Program.cs" />

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace NumbersConverter
 {
-    class HexadecimalSystems
+    class HexadecimalSystems : INumberSystem
     {
         public string userInput { get; set; }
 
@@ -73,7 +73,7 @@ namespace NumbersConverter
             return result;
         }
 
-        public void ShowingHexadecimalResults()
+        public void ShowResults()
         {
             Console.WriteLine("In hexadecimal: " + userInput);
             Console.WriteLine("In decimal: " + HexToDec());

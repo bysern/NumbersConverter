@@ -15,22 +15,20 @@ namespace NumbersConverter
                 input = ReadNumber.AskUser();
                 try
                 {
+                    INumberSystem numberSystem;
                     if (input[0] == '0' && input[1] != 'x' && input[1] != 'X' && input[1] != ',')   //if number is octal
                     {
-                        OctalSystems octal = new OctalSystems(input);
-                        octal.ShowingOctalResults();
-
+                        numberSystem = new OctalSystems(input);
                     }
                     else if (input[1] == 'x' || input[1] == 'X')  // if number is hexadecimal
                     {
-                        HexadecimalSystems hexadecimal = new HexadecimalSystems(input);
-                        hexadecimal.ShowingHexadecimalResults();
+                        numberSystem = new HexadecimalSystems(input);
                     }
-                    else                      // if number is decimal
+                    else // if number is decimal
                     {
-                        DecimalSystems dec = new DecimalSystems(input);
-                        Console.WriteLine("In decimal: " + input + "\n" + dec.DecimalToBinary() + "\n" + dec.DecimalToHexa() + "\n" + dec.DecimalToOctal());
+                        numberSystem = new DecimalSystems(input);
                     }
+                    numberSystem.ShowResults();
                 }
                 catch (Exception e)
                 {
