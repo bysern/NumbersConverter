@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NumbersConverter
 {
-    class OctalSystems
+    class OctalSystems : INumberSystem
     {
         public double number { get; private set; }
 
@@ -57,7 +57,7 @@ namespace NumbersConverter
             return result;
 
         }
-        public void ShowingOctalResults()
+        public void ShowResults()
         {
             Console.WriteLine("In octal: " + number);
             Console.WriteLine("In decimal: " + octalToDecimal());

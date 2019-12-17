@@ -1,12 +1,19 @@
-﻿namespace NumbersConverter
+﻿using System;
+
+namespace NumbersConverter
 {
-    class DecimalSystems
+    class DecimalSystems : INumberSystem
     {
         protected double number { get; private set; }
 
         public DecimalSystems(string userInput)
         {
             number = double.Parse(userInput);
+        }
+
+        public void ShowResults()
+        {
+            Console.WriteLine("In decimal: " + number + "\n" + DecimalToBinary() + "\n" + DecimalToHexa() + "\n" + DecimalToOctal());
         }
 
         private string DecimalToAllOtherSystems(int Base)
